@@ -1,0 +1,17 @@
+li{
+    width: 100%;
+    list-style: none;
+    display: flex;
+}
+
+li p{
+    margin-right: 3rem;
+}
+
+li div #adicionar{
+    background-color: lightblue;
+}
+
+li div #remover{
+    background-color: lightcoral;
+}

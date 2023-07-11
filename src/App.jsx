@@ -1,35 +1,65 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import {useState } from "react";
+import { CardAdicionar } from "./components/CardAdicionar";
+import { ListItem } from "./components/ListItem";
+import "./App.css"
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [todos, setTodos] = useState([]);
+  const [count, setCount] = useState(1);
+
+  const createTodo = (textTodo) => {
+    const newTodo = {
+      id: count,
+      texto: textTodo,
+      finalizado: false,
+    };
+
+    setTodos((todos) => [...todos, newTodo]);
+    setCount((count) => count + 1);
+  };
+
+  const finalizarTask = (id) => {
+    const item = todos.find((todo) => todo.id == id);
+
+    const todosFiltered = todos.filter((todo) => todo.id != id);
+
+    item.finalizado = !item.finalizado;
+
+    todosFiltered.push(item);
+
+    todosFiltered.sort((a, b) => {
+      return a.id < b.id ? -1 : a.id > b.id ? 1 : 0;
+    });
+
+    setTodos(todosFiltered);
+  };
+
+  const removerTarefa = (id) => {
+    const tarefasFiltradas = todos.filter((todo) => todo.id != id);
+
+    setTodos(tarefasFiltradas);
+  };
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+     <main>
+      <h1>Lista de Tarefas</h1>
+      <CardAdicionar handleAdd={createTodo} />
+        <ul>
+          {todos.map((item) => {
+            return (
+              <ListItem
+                todo={item}
+                finalizarTask={finalizarTask}
+                removerTarefa={removerTarefa}
+                key={item.id}
+              />
+            );
+          })}
+        </ul>
+     </main>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

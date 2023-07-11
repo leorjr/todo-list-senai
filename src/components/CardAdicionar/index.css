@@ -1,0 +1,9 @@
+div input{
+    padding: 0.6rem;
+}
+
+div button{
+    padding: 0.6rem;
+    cursor: pointer;
+    background-color: lightgray;
+}
